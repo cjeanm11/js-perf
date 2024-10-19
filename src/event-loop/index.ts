@@ -1,3 +1,5 @@
+// ex - 1
+
 // tick function, resolves immediately and returns a Promise<void>
 function tick(): Promise<void> {
     return new Promise<void>(res => res());
@@ -27,9 +29,18 @@ function promiseTiming(): Promise<void> {
     });
 }
 
+// Schedule "hello" to be printed in a microtask
 const h1 = addToNextTick(print("hello"));
 
-async function main(): Promise<void> {
+
+
+
+// Example 1
+async function ex1(): Promise<void> {
+    console.log();
+    console.log("ex 1");
+    console.log();
+
     // Loops 10 times and schedules "hello" to be printed in a microtask each time
     for (let i = 0; i < 10; i++) {
         h1();
@@ -55,6 +66,46 @@ async function main(): Promise<void> {
     // Microtask
     // hello (x10)
     // Macrotask
+}
+
+// Simulated API call to fetch data
+async function getDataFromAPI(): Promise<any> {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({
+                message: "Data fetched successfully!",
+                timestamp: new Date().toISOString(),
+            });
+        }, 1000); // Simulate network delay
+    });
+}
+
+function updateUI(data: any): void {
+    console.log("Message:", data.message); 
+    console.log("Fetched at:", data.timestamp); 
+}
+
+async function fetchData() {
+    await tick(); // Ensures UI is updated before data fetch
+    const data = await getDataFromAPI();
+    updateUI(data); 
+}
+
+// Example 2
+async function ex2(): Promise<void> {
+    console.log();
+    console.log("ex 2");
+    console.log();
+
+    console.log("Fetching data...");
+    fetchData().then(() => console.log("Data fetched."));
+}
+
+
+// Execute both examples
+async function main(): Promise<void> {
+    await ex1();
+    await ex2();
 }
 
 main();

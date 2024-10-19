@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Fetch Example</title>
+</head>
+<body>
+    <h1>Data Fetch Example</h1>
+    <button id="fetchButton">Fetch Data</button>
+    <div id="output">
+        <h2>Output:</h2>
+        <p id="message"></p>
+        <p id="timestamp"></p>
+    </div>
+
+    <script>
+        // Simulated API call to fetch data
+        async function getDataFromAPI() {
+          
+            const messageElement = document.getElementById("message");
+            if (messageElement) {
+                messageElement.textContent = 'waiting...'
+            }
+          
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        message: "Data fetched successfully!",
+                        timestamp: new Date().toISOString(),
+                    });
+                }, 1000); // Simulate network delay
+            });
+        }
+
+        // Function to update the UI with fetched data
+        function updateUI(data) {
+            const messageElement = document.getElementById("message");
+            if (messageElement) {
+                messageElement.textContent = data.message; 
+            }
+        
+            const timestampElement = document.getElementById("timestamp");
+            if (timestampElement) {
+                timestampElement.textContent = `Fetched at: ${data.timestamp}`;
+            }
+        }
+        
+        async function tick() {
+            return new Promise((res) => res());
+        }
+
+        async function fetchData() {
+            await tick(); // Ensures UI is updated before data fetch
+            const data = await getDataFromAPI();
+            updateUI(data); 
+        }
+
+        document.getElementById("fetchButton").addEventListener("click", fetchData);
+    </script>
+</body>
+</html>
