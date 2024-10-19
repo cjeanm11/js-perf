@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intersection Observer Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .image-container {
+            height: 100vh; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            margin: 20px 0;
+            border: 2px dashed #ccc;
+        }
+        .image {
+            max-width: 100%;
+            max-height: 100%;
+            display: none; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="image-container" id="image1">
+        <img class="image" src="" alt="Image 1" data-src="https://via.placeholder.com/600x400?text=Image+1">
+    </div>
+    <div class="image-container" id="image2">
+        <img class="image" src="" alt="Image 2" data-src="https://via.placeholder.com/600x400?text=Image+2">
+    </div>
+    <div class="image-container" id="image3">
+        <img class="image" src="" alt="Image 3" data-src="https://via.placeholder.com/600x400?text=Image+3">
+    </div>
+
+    <script>
+        function loadImage(id) {
+            const imgElement = document.querySelector(`#${id} .image`);
+            const imgSrc = imgElement.getAttribute('data-src');
+            imgElement.src = imgSrc;
+            imgElement.style.display = 'block';
+        }
+
+        async function tick() {
+            return new Promise(resolve => {
+                setTimeout(resolve, 0);
+            });
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(async (entry) => {
+                if (entry.isIntersecting) {
+                    await tick();
+                    loadImage(entry.target.id);
+                    observer.unobserve(entry.target); 
+                }
+            });
+        });
+
+        document.querySelectorAll('.image-container').forEach(container => {
+            observer.observe(container);
+        });
+    </script>
+</body>
+</html>

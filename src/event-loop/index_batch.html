@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Async Form Submission</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #loading {
+            display: none;
+            margin-top: 10px;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Submit Your Data</h1>
+<form id="dataForm">
+    <label for="inputField">Enter some data:</label><br>
+    <input type="text" id="inputField" required><br><br>
+    <button type="submit">Submit</button>
+</form>
+
+<div id="loading">Loading...</div>
+<div id="result"></div>
+
+<script>
+    function tick() {
+        return new Promise(resolve => {
+            Promise.resolve().then(resolve);
+        });
+    }
+
+    async function sendDataToServer(data) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(`Data sent: ${data}`);
+            }, 2000);
+        });
+    }
+
+    async function submitForm(formData) {
+        document.getElementById('loading').style.display = 'block';
+        await tick(); 
+        const result = await sendDataToServer(formData);
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('result').innerText = result;
+    }
+
+    document.getElementById('dataForm').addEventListener('submit', async (event) => {
+        event.preventDefault(); 
+        const formData = document.getElementById('inputField').value;
+        await submitForm(formData);
+    });
+</script>
+
+</body>
+</html>

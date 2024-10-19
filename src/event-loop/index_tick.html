@@ -15,7 +15,6 @@
     </div>
 
     <script>
-        // Simulated API call to fetch data
         async function getDataFromAPI() {
           
             const messageElement = document.getElementById("message");
@@ -29,11 +28,10 @@
                         message: "Data fetched successfully!",
                         timestamp: new Date().toISOString(),
                     });
-                }, 1000); // Simulate network delay
+                }, 1000);
             });
         }
 
-        // Function to update the UI with fetched data
         function updateUI(data) {
             const messageElement = document.getElementById("message");
             if (messageElement) {
@@ -51,7 +49,7 @@
         }
 
         async function fetchData() {
-            await tick(); // Ensures UI is updated before data fetch
+            await tick();
             const data = await getDataFromAPI();
             updateUI(data); 
         }

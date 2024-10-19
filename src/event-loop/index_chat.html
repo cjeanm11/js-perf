@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #messageList {
+            list-style-type: none;
+            padding: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+        #messageList li {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Chat Application</h1>
+<ul id="messageList"></ul>
+
+<input type="text" id="messageInput" placeholder="Type your message..." />
+<button id="sendButton">Send</button>
+
+<script>
+    function tick() {
+        return new Promise(resolve => {
+            Promise.resolve().then(resolve);
+        });
+    }
+
+    let messagesBuffer = [];
+    let timeout;
+
+    function updateMessageList(messages) {
+        const messageList = document.getElementById('messageList');
+        messages.forEach(message => {
+            const newMessage = document.createElement('li');
+            newMessage.textContent = message;
+            messageList.appendChild(newMessage);
+        });
+    }
+
+    function addMessage(message) {
+        messagesBuffer.push(message);
+        if (!timeout) {
+            timeout = setTimeout(async () => {
+                await tick();
+                updateMessageList(messagesBuffer); 
+                messagesBuffer = [];
+                timeout = null;
+            }, 2000); 
+        }
+    }
+
+    document.getElementById('sendButton').addEventListener('click', () => {
+        const messageInput = document.getElementById('messageInput');
+        const message = messageInput.value.trim();
+        if (message) {
+            addMessage(message);
+            messageInput.value = ''; 
+        }
+    });
+
+    setInterval(() => {
+        addMessage(`Auto message at ${new Date().toLocaleTimeString()}`);
+    }, 3000);
+</script>
+
+</body>
+</html>
