@@ -1,0 +1,14 @@
+{
+  "name": "js-perf",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+      "ex1": "bun run src/event-loop/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
